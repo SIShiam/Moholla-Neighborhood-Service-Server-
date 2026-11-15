@@ -6,7 +6,7 @@ import { joinsRouter } from "./routes/joins.js";
 
 const app = express();
 
-app.use(cors({ origin: (process.env.CLIENT_URL || "http://localhost:3000").replace(/\/$/, "") }));
+app.use(cors());
 app.use(express.json({ limit: "100kb" }));
 
 
@@ -18,8 +18,11 @@ app.use((req, res) => res.status(404).json({ message: "That route does not exist
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ message: "The server hit a problem. Try again in a moment." });
+  console.error("[Server Error]:", err);
+  res.status(500).json({
+    message: "The server hit a problem. Try again in a moment.",
+    detail: err.message || String(err),
+  });
 });
 
 if (!process.env.VERCEL) {
