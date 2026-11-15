@@ -1,11 +1,6 @@
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
-const clientUrl = (
-  process.env.CLIENT_URL ||
-  (process.env.NODE_ENV === "production" || process.env.VERCEL
-    ? "https://moholla-client.vercel.app"
-    : "http://localhost:3000")
-).replace(/\/$/, "");
+const clientUrl = (process.env.CLIENT_URL || "http://localhost:3000").replace(/\/$/, "");
 
 // Better Auth publishes its public signing keys here (jwt plugin).
 const jwks = createRemoteJWKSet(new URL(`${clientUrl}/api/auth/jwks`));
